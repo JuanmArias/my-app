@@ -1,19 +1,32 @@
-import { Alert } from "react-bootstrap";
+import React, {useEffect, useState} from 'react';
+import ItemList from './ItemList';
 
-const Hola = () => {
-    return<>
-    <Alert variant="success">
-    <Alert.Heading>Se hace lo que se puede Fran</Alert.Heading>
-    <p>
-        Le puse la mejor pero estuvo jodido jaja
-    </p>
-    <hr />
-    <p className="mb-0">
-        no pude darle visualizacion a la imagen en el nav :/
-    </p>
-    </Alert>
-    </>;
+const ItemListContainer = ({brand}) => {
+    const [items, setItems] = useState([]);
+
+    const getItems = () => new Promise (resolve => {
+            setTimeout(() => resolve(
+                [
+                    {id:0, title:'Lubricante', description: 'detalle de un lubricante', price: 200, pictureUrl: 'img/lubricante.jpg'},
+                    {id:1, title:'Vibrador', description: 'detalle de un vibrador', price: 1800, pictureUrl: 'img/vibrador.jpg'},
+                    {id:2, title:'Esposas', description: 'detalle de esposas', price: 700, pictureUrl: 'img/esposas.jpg'},
+                    {id:3, title:'Estimulador', description: 'detalle de un estimulador', price: 10000, pictureUrl: 'img/estimulador.jpg'},
+                    {id:4, title:'Plug', description: 'detalle del plug', price: 12000, pictureUrl: 'img/plug.jpg'}
+                ]
+            ), 2000);
+        });
+
+    useEffect(() => {
+        getItems().then(res => setItems(res))
+        .catch(res => {alert('Error al tratar de renderizar los productos')})
+    }, []);
+
+    return (
+        <>
+            <h1 style={{textAlign: 'center', marginTop: '2rem'}}>¡Bienvenido a <strong>{brand}!</strong></h1>
+            <ItemList items={items}/>
+        </>
+    );
 }
 
-export default Hola;
-
+export default ItemListContainer;
