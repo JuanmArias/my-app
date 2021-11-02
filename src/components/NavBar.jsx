@@ -5,15 +5,15 @@ import { Col } from 'react-bootstrap';
 
 const NavBar = () => {
     return <>
-          <Navbar bg="dark">
+          <Navbar bg="light">
             <Container>
               <Navbar.Brand href="#home">
                 <Row className="align-items-center">
                   <Col md={6}>
                     <img
-                      src="../logo192.png"
-                      width="100"
-                      height="100"
+                      src="img/horny_1.png"
+                      width="200rem"
+                      height="200rem"
                       className="d-inline-block align-top"
                       alt="Horny Store"
                     />
