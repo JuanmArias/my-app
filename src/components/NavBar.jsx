@@ -8,7 +8,6 @@ import Button from '@restart/ui/esm/Button';
 import { Col } from 'react-bootstrap';
 import CartWidget from './CartWidget';
 import { Link } from 'react-router-dom';
-
 import './navBar.css';
 
 
