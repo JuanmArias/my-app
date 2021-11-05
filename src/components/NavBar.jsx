@@ -1,82 +1,65 @@
-/* import Navbar from 'react-bootstrap/Navbar';
+import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container'
-import { Row } from 'react-bootstrap';
+import { Offcanvas } from 'react-bootstrap';
+import { Nav } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
+import { FormControl } from 'react-bootstrap';
+import Button from '@restart/ui/esm/Button';
 import { Col } from 'react-bootstrap';
-
-const NavBar = () => {
-    return <>
-          <Navbar bg="light">
-            <Container>
-              <Navbar.Brand href="#home">
-                <Row className="align-items-center">
-                  <Col md={6}>
-                    <img
-                      src="img/horny_1.png"
-                      width="200rem"
-                      height="200rem"
-                      className="d-inline-block align-top"
-                      alt="Horny Store"
-                    />
-                  </Col>
-                  <Col md={6}>
-                    <h3 style={{ color: 'red' }}>Horny Store</h3>
-                  </Col>
-                </Row>
-              </Navbar.Brand>
-            </Container>
-          </Navbar>
-    </>;
-}
-
-export default NavBar; */
-
-import React, { useState } from 'react';
+import CartWidget from './CartWidget';
 import { Link } from 'react-router-dom';
+
 import './navBar.css';
 
-function NavBar() {
-  const [click, setClick] = useState(false);
-  const handleClick = () => setClick(!click);
-  const closeMobileMenu = () => setClick(false);
-  return (
-    <>
-      <nav className="navbar">
-        <div className="navbar-container">
-          <div className="menu-icon" onClick={handleClick}>
-            <i className={click ? 'fas fa-times' : 'fas fa-bars'} />
-          </div>
-          <ul className={click ? 'nav-menu active' : 'nav-menu '}>
-            <li className='nav-item'>
-              <Link to='/' className='nav-links' onClick={closeMobileMenu}>
-                Home
-              </Link>
-            </li>
-            <li className='nav-item'>
-              <Link to='/productos' className='nav-links' onClick={closeMobileMenu}>
-                Productos
-              </Link>
-            </li>
-            <li className='nav-item'>
-              <Link to='/nosotros' className='nav-links' onClick={closeMobileMenu}>
-                Nosotros
-              </Link>
-            </li>
-            <li className='nav-item'>
-              <Link to='/contacto' className='nav-links' onClick={closeMobileMenu}>
-                Contacto
-              </Link>
-            </li>
-          </ul>
-          <Link to='#' className='navbar-logo'>
-            <img src="img/horny_.png" alt="horny store" width="200rem" height="200rem" className="d-inline-block align-top" />
-          </Link>
-        </div>
-      </nav>
-    </>
-  )
+
+const NavBar = () => {
+  return <>
+          <Navbar sticky="top" expand={false}>
+            <Container fluid>
+              <Col md={4}>
+                <Navbar.Toggle aria-controls="offcanvasNavbar" />
+                <Navbar.Offcanvas
+                  id="offcanvasNavbar"
+                  aria-labelledby="offcanvasNavbarLabel"
+                  placement="start"
+                >
+                  <Offcanvas.Header closeButton>
+                    <Offcanvas.Title id="offcanvasNavbarLabel">Horny Store</Offcanvas.Title>
+                  </Offcanvas.Header>
+                  <Offcanvas.Body>
+                    <Nav className="justify-content-start flex-grow-1 pe-3">
+                      <Nav.Link as={Link} to={"/home"}>Inicio</Nav.Link>
+                      <Nav.Link as={Link} to={"/productos"}>Productos</Nav.Link>
+                    </Nav>
+                    <Form className="d-flex">
+                      <FormControl
+                        type="search"
+                        placeholder="Search"
+                        className="me-2"
+                        aria-label="Search"
+                      />
+                      <Button variant="outline-success">Search</Button>
+                    </Form>
+                  </Offcanvas.Body>
+                </Navbar.Offcanvas>
+              </Col>
+           
+              <Col md={5}>
+                <Navbar.Brand href="#home">
+                  <img
+                    src="img/horny_1.png"
+                    alt="Horny Store"
+                  />
+                </Navbar.Brand>
+              </Col>
+
+              <Col md="auto">
+              <CartWidget/>
+              </Col>
+     
+            </Container>
+          </Navbar>
+  </>
 }
 
-export default NavBar
-
-
-
+export default NavBar;

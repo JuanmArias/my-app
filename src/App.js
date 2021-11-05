@@ -1,20 +1,28 @@
 import React from 'react';
 import NavBar from './components/NavBar';
 import ItemListContainer from './components/ItemListContainer';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import ItemDetailContainer from './components/ItemDetailContainer';
+import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import './App.css';
 
 
 
 function App() {
   return <>
-        <Router>
-          <NavBar/>
-          <Switch>
-            <Route path='/' exact/>
-            
-          </Switch>
-        </Router>
+ 
+          <BrowserRouter>
+            <NavBar/>
+            <Switch>
+              <Route path="/productos">
+                <ItemListContainer brand="Horny Store"/>
+              </Route>
+              
+              <Route path="/ItemDetail">
+                <ItemDetailContainer/>
+              </Route>
+            </Switch>
+          </BrowserRouter>
+
   </>
 }
 
