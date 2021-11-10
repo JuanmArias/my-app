@@ -1,7 +1,7 @@
 import { Carousel } from "react-bootstrap";
 import React from "react";
 
-const Carousel1 = () => {
+const CarouselNav = () => {
     return<>
         <Carousel className="carro">
         <Carousel.Item interval={2000}>
@@ -42,4 +42,4 @@ const Carousel1 = () => {
     </>
 }
 
-export default Carousel1;
+export default CarouselNav;

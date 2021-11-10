@@ -1,3 +1,4 @@
+import React from "react";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
@@ -9,7 +10,7 @@ const Item = ({pictureUrl, title, description, price}) => {
                 <Card.Title>{title}</Card.Title>
                 <Card.Text>{description}</Card.Text>
                 <Card.Text>{price}</Card.Text>
-                <Link to={`/itemDetail`} variant="primary">Ir al Producto</Link>
+                <Link to={`/itemDetail/${title}`} variant="primary">Ir al Producto</Link>
             </Card.Body>
             </Card>
     </>;

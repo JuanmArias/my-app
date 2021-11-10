@@ -1,10 +1,14 @@
 import React, {useEffect, useState} from 'react';
+import { useParams } from 'react-router';
 import ItemDetail from './ItemDetail';
 
 const ItemDetailContainer = () => {
-    const [itemsDetail, setItems] = useState([]);
+    const [item, setItem] = useState({});
 
-    const getItems = () => new Promise (resolve => {
+    const {title} = useParams();
+
+    useEffect(() => {
+        const getItems =  new Promise (resolve => {
             setTimeout(() => resolve(
                 [
                     {id:0, title:'Lubricante', description: 'detalle de un lubricante', price: 200, pictureUrl: 'img/lubricante.jpg'},
@@ -16,21 +20,15 @@ const ItemDetailContainer = () => {
             ), 2000);
         });
 
-        const ItemList = ({items}) => 
-        <div className="item-list">
-            {items.map(it => <ItemDetail key={it.id} pictureUrl={it.pictureUrl} title={it.title} description={it.description} price={it.price}/>)}
-        </div>
+        getItems.then((res) => {
+            setItem(res.find(it => (it.id = title)));
+        //.catch(res => {alert('Error al tratar de renderizar los productos')})
+        });
+    }, [title]);
 
-    useEffect(() => {
-        getItems().then(res => setItems(res))
-        .catch(res => {alert('Error al tratar de renderizar los productos')})
-    }, []);
-
-    return (
-        <>
-            <ItemList items={itemsDetail}/>
-        </>
-    );
+    return(
+        <ItemDetail {...item} />
+    )
 }
 
 export default ItemDetailContainer;
