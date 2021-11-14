@@ -9,7 +9,7 @@ const Item = ({pictureUrl, title, description, price}) => {
             <Card.Body>
                 <Card.Title>{title}</Card.Title>
                 <Card.Text>{description}</Card.Text>
-                <Card.Text>{price}</Card.Text>
+                <Card.Text>${price}</Card.Text>
                 <Link to={`/itemDetail/${title}`} variant="primary">Ir al Producto</Link>
             </Card.Body>
             </Card>

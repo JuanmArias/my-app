@@ -1,29 +1,29 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
+import { Container } from 'react-bootstrap';
 import ItemList from './ItemList';
+import  data  from './data/data';
 
 const ItemListContainer = () => {
-    const [items, setItems] = useState([]);
 
-    const getItems = () => new Promise (resolve => {
-            setTimeout(() => resolve(
-                [
-                    {id:0, title:'Lubricante', description: 'detalle de un lubricante', price: 200, pictureUrl: 'img/lubricante.jpg'},
-                    {id:1, title:'Vibrador', description: 'detalle de un vibrador', price: 1800, pictureUrl: 'img/vibrador.jpg'},
-                    {id:2, title:'Esposas', description: 'detalle de esposas', price: 700, pictureUrl: 'img/esposas.jpg'},
-                    {id:3, title:'Estimulador', description: 'detalle de un estimulador', price: 10000, pictureUrl: 'img/estimulador.jpg'},
-                    {id:4, title:'Plug', description: 'detalle del plug', price: 12000, pictureUrl: 'img/plug.jpg'}
-                ]
-            ), 2000);
-        });
-        
+    const [productos, setProductos] = useState([])
+    const [cargando, setCargando] = useState(true)
+
     useEffect(() => {
-        getItems().then(res => setItems(res))
-        .catch(res => {alert('Error al tratar de renderizar los productos')})
+        const getItems = new Promise ((resolve) => {
+            setTimeout(() => {
+                resolve(data);
+            }, 10);
+        });
+
+        getItems.then((data) => {
+            setProductos(data)
+            setCargando(false)
+        });
     }, []);
 
     return (
         <>
-            <ItemList items={items}/>
+            <Container fluid>{cargando ? <h2 className="text-center">Cargando productos...</h2> : <ItemList productos={productos}/>}</Container>
         </>
     );
 }

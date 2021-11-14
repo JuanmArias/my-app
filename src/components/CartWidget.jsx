@@ -4,7 +4,7 @@ const CartWidget = () => {
   return (
     <>
       <div>
-        <a href="/">
+        <a href="/cart">
         <i class="fas fa-cart-plus"></i>
         </a>
       </div>
