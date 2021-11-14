@@ -1,5 +1,6 @@
+import React from "react";
 import { Card } from "react-bootstrap";
-import Button from "@restart/ui/esm/Button";
+import { Link } from "react-router-dom";
 
 const Item = ({pictureUrl, title, description, price}) => {
     return<>
@@ -9,7 +10,7 @@ const Item = ({pictureUrl, title, description, price}) => {
                 <Card.Title>{title}</Card.Title>
                 <Card.Text>{description}</Card.Text>
                 <Card.Text>{price}</Card.Text>
-                <Button variant="primary">Agregar al Carrito</Button>
+                <Link to={`/itemDetail/${title}`} variant="primary">Ir al Producto</Link>
             </Card.Body>
             </Card>
     </>;

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import ItemList from './ItemList';
 
-const ItemListContainer = ({brand}) => {
+const ItemListContainer = () => {
     const [items, setItems] = useState([]);
 
     const getItems = () => new Promise (resolve => {
@@ -15,7 +15,7 @@ const ItemListContainer = ({brand}) => {
                 ]
             ), 2000);
         });
-
+        
     useEffect(() => {
         getItems().then(res => setItems(res))
         .catch(res => {alert('Error al tratar de renderizar los productos')})
@@ -23,7 +23,6 @@ const ItemListContainer = ({brand}) => {
 
     return (
         <>
-            <h1 style={{textAlign: 'center', marginTop: '2rem'}}>¡Bienvenido a <strong>{brand}!</strong></h1>
             <ItemList items={items}/>
         </>
     );

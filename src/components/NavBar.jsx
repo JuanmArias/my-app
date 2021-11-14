@@ -1,31 +1,51 @@
 import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container'
-import { Row } from 'react-bootstrap';
+import { useState } from 'react';
+import { OffcanvasHeader, OffcanvasBody, OffcanvasTitle } from 'react-bootstrap';
+import { Nav } from 'react-bootstrap';
 import { Col } from 'react-bootstrap';
+import CartWidget from './CartWidget';
+import { Link } from 'react-router-dom';
+
 
 const NavBar = () => {
-    return <>
-          <Navbar bg="dark">
-            <Container>
-              <Navbar.Brand href="#home">
-                <Row className="align-items-center">
-                  <Col md={6}>
-                    <img
-                      src="../logo192.png"
-                      width="100"
-                      height="100"
-                      className="d-inline-block align-top"
-                      alt="Horny Store"
-                    />
-                  </Col>
-                  <Col md={6}>
-                    <h3 style={{ color: 'red' }}>Horny Store</h3>
-                  </Col>
-                </Row>
-              </Navbar.Brand>
+
+  const [visibleWithBothOptions, setVisibleWithBothOptions] = useState(false)
+
+  return <>
+          <Navbar sticky="top" expand={false}>
+            <Container fluid>
+              <Col md={4}>
+                <Navbar.Toggle aria-controls="offcanvasNavbar" />
+                <Navbar.Offcanvas placement="start" scroll visible={visibleWithBothOptions} onHide={() => setVisibleWithBothOptions(false)}>
+                  <OffcanvasHeader closeButton>
+                    <OffcanvasTitle>Horny Store</OffcanvasTitle>
+                  </OffcanvasHeader>
+                  <OffcanvasBody>
+                    <Nav className="justify-content-start flex-grow-1 pe-3">
+                      <Nav.Link as={Link} to={"/"}>Inicio</Nav.Link>
+                      <Nav.Link as={Link} to={"/productos"}>Productos</Nav.Link>
+                    </Nav>
+                  </OffcanvasBody>
+                </Navbar.Offcanvas>
+              </Col>
+           
+              <Col md={5}>
+                <Navbar.Brand href="/">
+                  <img
+                    src="img/horny_1.png"
+                    alt="Horny Store"
+                  />
+                </Navbar.Brand>
+              </Col>
+
+              <Col md="auto">
+              <CartWidget/>
+              </Col>
+     
             </Container>
           </Navbar>
-    </>;
+  </>
 }
 
 export default NavBar;
