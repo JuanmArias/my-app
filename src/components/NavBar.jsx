@@ -1,33 +1,32 @@
 import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container'
-import { Offcanvas } from 'react-bootstrap';
+import { useState } from 'react';
+import { OffcanvasHeader, OffcanvasBody, OffcanvasTitle } from 'react-bootstrap';
 import { Nav } from 'react-bootstrap';
 import { Col } from 'react-bootstrap';
 import CartWidget from './CartWidget';
 import { Link } from 'react-router-dom';
-import './navBar.css';
 
 
 const NavBar = () => {
+
+  const [visibleWithBothOptions, setVisibleWithBothOptions] = useState(false)
+
   return <>
           <Navbar sticky="top" expand={false}>
             <Container fluid>
               <Col md={4}>
                 <Navbar.Toggle aria-controls="offcanvasNavbar" />
-                <Navbar.Offcanvas
-                  id="offcanvasNavbar"
-                  aria-labelledby="offcanvasNavbarLabel"
-                  placement="start"
-                >
-                  <Offcanvas.Header closeButton>
-                    <Offcanvas.Title id="offcanvasNavbarLabel">Horny Store</Offcanvas.Title>
-                  </Offcanvas.Header>
-                  <Offcanvas.Body>
+                <Navbar.Offcanvas placement="start" scroll visible={visibleWithBothOptions} onHide={() => setVisibleWithBothOptions(false)}>
+                  <OffcanvasHeader closeButton>
+                    <OffcanvasTitle>Horny Store</OffcanvasTitle>
+                  </OffcanvasHeader>
+                  <OffcanvasBody>
                     <Nav className="justify-content-start flex-grow-1 pe-3">
                       <Nav.Link as={Link} to={"/"}>Inicio</Nav.Link>
                       <Nav.Link as={Link} to={"/productos"}>Productos</Nav.Link>
                     </Nav>
-                  </Offcanvas.Body>
+                  </OffcanvasBody>
                 </Navbar.Offcanvas>
               </Col>
            
