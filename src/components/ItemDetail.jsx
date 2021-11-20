@@ -15,7 +15,7 @@ const ItemDetail = ({pictureUrl, title, description, price, stock }) => {
     const agregar = (props) =>{
         setBuy(true)
         alert(`agregaste ${props.unidades} al carro`)
-        onAdd({title, price}, props.unidades)
+        onAdd({title, price, pictureUrl}, props.unidades)
     }
     
     return(

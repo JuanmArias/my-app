@@ -21,3 +21,13 @@ hr {
     margin-top: 0.7rem;
     margin-bottom: 1rem;
     }
+
+.carroTotal{
+    display: flex;
+    background-color: rgb(92, 92, 92);
+    text-align: start;
+    width: 20%;
+    margin-right: 5%;
+
+    
+}
