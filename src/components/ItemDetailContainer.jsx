@@ -1,31 +1,31 @@
 import React, {useEffect, useState} from 'react';
 import { useParams } from 'react-router';
 import ItemDetail from './ItemDetail';
-import data from './data/data';
 import { Container } from 'react-bootstrap';
+import db from '../firebase/firebase';
+import { collection, getDocs } from '@firebase/firestore';
 
 const ItemDetailContainer = () => {
     
-    const [item, setItem] = useState()
-    const [cargando, setCargando] = useState(true)
+    const [item, setItem] = useState({})
     const {title} = useParams();
 
     useEffect(() => {
-        const getItems =  new Promise (resolve => {
-            setTimeout(() => resolve(data), 10);
-        });
-
-        getItems.then((res) => {
-            setItem(res.find(it => (it.title === title)));
-            setCargando(false)
-        //.catch(res => {alert('Error al tratar de renderizar los productos')})
-        });
+        const getItems = collection(db, 'items');
+        
+        getDocs(getItems).then((res) => {
+            const result = res.docs.map( doc => {
+                return {id: doc.id, ...doc.data()};
+                
+            });
+            setItem(result.find(res => res.title  === title))
+        })
     }, [title]);
 
     return(
-
-        <Container fluid>{cargando ? <h2 className="text-center">Cargando producto...</h2> : <ItemDetail {...item}/>}</Container>
-    )
+        <>
+            <ItemDetail key={item.id} id={item.id} pictureUrl={item.pictureUrl} title={item.title} description={item.description} price={item.price} item={item} stock={item.stock}/>        </>
+    );
 }
 
 export default ItemDetailContainer;

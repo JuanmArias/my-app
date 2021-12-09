@@ -5,8 +5,25 @@ import { Container } from "react-bootstrap";
 
 const ItemCount = (props) =>{
     const [stock, setStock] = useState(props.stock)
-    const [unidades, setUnidades] = useState(0)
+    const [qty, setQty] = useState(0)
 
+    const removeItem = () => {}
+
+    const changeQty = (add) => {
+        if(add){
+            if(stock > 0){
+                setQty(qty +1)
+                setStock(stock -1)
+            }
+        } else if(qty > 1){
+            setQty(qty -1)
+            setStock(stock +1)
+        } else {
+            removeItem()
+        }
+    }
+
+/* 
     const handleStock={
         sumaStock:()=>{
             if(stock===0){
@@ -25,20 +42,20 @@ const ItemCount = (props) =>{
             }
         },
     }
-
+ */
     return(
         <Container>
             <Row>
-                <Row className="buttom-ItemCount">
-                    <Col><button onClick={handleStock.restaStock}>-</button></Col>
-                    <Col><p>{unidades}</p></Col>
-                    <Col><button onClick={handleStock.sumaStock}>+</button></Col>
+                <Row>
+                    <Col><button onClick={() => changeQty(false)}>-</button></Col>
+                    <Col><p>{qty}</p></Col>
+                    <Col><button onClick={() => changeQty(true)}>+</button></Col>
                 </Row>
                 <div>
                     <p>Stock Disponible {stock}</p>
                 </div>
                 <div>
-                    <button onClick={()=>props.onAdd({unidades})}>agregar al carrito</button>
+                    <button onClick={()=>props.onAdd({qty})}>agregar al carrito</button>
                 </div>
             </Row>
         </Container>

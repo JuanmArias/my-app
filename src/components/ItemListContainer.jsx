@@ -1,29 +1,41 @@
 import React, { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import ItemList from './ItemList';
-import  data  from './data/data';
+import db from '../firebase/firebase';
+import { collection, getDocs } from '@firebase/firestore';
 
 const ItemListContainer = () => {
 
     const [productos, setProductos] = useState([])
-    const [cargando, setCargando] = useState(true)
+    const [cat, setCat] = useState('todos')
 
-    useEffect(() => {
-        const getItems = new Promise ((resolve) => {
-            setTimeout(() => {
-                resolve(data);
-            }, 10);
-        });
+    const filtering = (props) => {
+        setCat(props.target.value)
+    }
 
-        getItems.then((data) => {
-            setProductos(data)
-            setCargando(false)
-        });
-    }, []);
+   useEffect(() => {
+       const getItems = collection(db, 'items');
 
+       getDocs(getItems).then((res) =>{
+           const results = res.docs.map( doc => {
+               return {...doc.data(), id: doc.id};
+           });
+           cat === 'todos' ? 
+           setProductos(results) : setProductos(results.filter(res => res.category === cat))
+       })
+   }, [cat])
+   
     return (
         <>
-            <Container fluid>{cargando ? <h2 className="text-center">Cargando productos...</h2> : <ItemList productos={productos}/>}</Container>
+            <Container fluid>
+                <h2 style={{margin:'2rem'}} className="text-center">Productos</h2>
+                <select defaultValue={'todos'} name="catFilter" id="catFilter" onChange={filtering}>
+                    <option value="todos" selected>Todos</option>
+                    <option value="juguetes">Juguetes</option>
+                    <option value="accesorios">Accesorios</option>
+                </select>
+                <ItemList productos={productos}/>
+            </Container>
         </>
     );
 }

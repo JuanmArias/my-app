@@ -1,41 +1,75 @@
 import React, {useState} from "react";
 
-const Context = React.createContext()
+const ShopCartContext = React.createContext([])
 
 const CartFuncion = ({children}) =>{
 
     const [cart, setCart] = useState([])
-    const [unidades, setUnidades] = useState(0)
     const [total, setTotal] = useState(0)
+    const [cant, setCant] = useState(0)
 
-    const onAdd = (producto, cantidad) =>{
+    const onAdd = (producto, qty) =>{
         const itemExiste = cart.find(item => item.title === producto.title)
+        setCant(cant + qty)
         if(!itemExiste){
-            setCart([...cart, {title: producto.title, pictureUrl: producto.pictureUrl, price: producto.price, cantidad: producto.cantidad, subTotal:(producto.price*cantidad)}])
-            setTotal(total+(producto.price*cantidad))
-            setUnidades(unidades+1)
+            setCart([...cart, {id: producto.id, title: producto.title, pictureUrl: producto.pictureUrl, price: producto.price, cantidad: qty, subTotal: (producto.price*qty)}])
+            setTotal(total+(producto.price*qty))
         } else {
-            const cartAux=cart.map(item=>{
+            const cartAux = cart.map((item) => {
                 if(item.title === producto.title){
-                    item.cantidad+=cantidad
-                    item.subTotal+=(producto.price*cantidad)
+                    item.cantidad+=qty;
+                    item.subTotal+=(producto.price*qty)
+                    setTotal(total+(producto.price*qty))
                 }
-                return item
+                return item;
             })
             setCart(cartAux)
-            setTotal(total+(producto.price*cantidad))
         }
+    }
+
+    const changeQty = (changeBool, cantidadArg, title) => {
+        if(changeBool){
+            const cartAuxTwo = cart.map((producto) => {
+                if(producto.title === title){
+                    producto.cantidad+=1;
+                    producto.subTotal+=(producto.price*1)
+                    setTotal(total+producto.price*1)
+                }
+                return producto;
+            })
+            setCant(cant +1)
+            setCart(cartAuxTwo);
+        } else if(cantidadArg === 1){
+            removeItem(title)
+        } else{
+            const cartAuxTwo = cart.map((producto) => {
+                if(producto.title === title){
+                    producto.cantidad-=1;
+                    producto.subTotal-=(producto.price)
+                    setTotal(total-producto.price)
+                }
+                return producto;
+            })
+            setCant(cant -1)
+            setCart(cartAuxTwo);
+        }
+    }
+
+    const removeItem = (title) => {
+        setCart(cart.filter(it => it.title !== title))
+        setTotal(total-((cart.find(it => it.title === title).subTotal)))
+        setCant(cant-((cart.find(it => it.title === title).cantidad)))
     }
 
     const clear = () =>{
         setCart([]);
+        setCant(0);
         setTotal(0);
-        setUnidades(0);
       }
 
-    return <Context.Provider value={{clear, cart, unidades, total, onAdd}}>
+    return <ShopCartContext.Provider value={{cart, total, cant, onAdd, clear, removeItem, changeQty }}>
         {children}
-    </Context.Provider>
+    </ShopCartContext.Provider>
 }
 
-export {CartFuncion, Context}
+export {CartFuncion, ShopCartContext}

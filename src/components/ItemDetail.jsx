@@ -5,17 +5,17 @@ import { Row } from "react-bootstrap";
 import ItemCount from "./ItemCount";
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import { Context } from "../context/CartContext";
+import { ShopCartContext } from "../context/CartContext";
 
-const ItemDetail = ({pictureUrl, title, description, price, stock }) => {
+const ItemDetail = ({id, pictureUrl, title, description, price, stock }) => {
 
     const [buy, setBuy] = useState(false)
-    const {onAdd} = useContext(Context)
+    const {onAdd} = useContext(ShopCartContext)
 
     const agregar = (props) =>{
         setBuy(true)
-        alert(`agregaste ${props.unidades} al carro`)
-        onAdd({title, price, pictureUrl}, props.unidades)
+        alert(`agregaste ${props.qty} al carro`)
+        onAdd({id, title, price, pictureUrl}, props.qty)
     }
     
     return(
