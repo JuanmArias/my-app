@@ -1,34 +1,30 @@
 import React, {useEffect, useState} from 'react';
 import { useParams } from 'react-router';
 import ItemDetail from './ItemDetail';
+import db from '../firebase/firebase';
+import { collection, getDocs } from '@firebase/firestore';
 
 const ItemDetailContainer = () => {
-    const [item, setItem] = useState();
-
+    
+    const [item, setItem] = useState({});
     const {title} = useParams();
 
     useEffect(() => {
-        const getItems =  new Promise (resolve => {
-            setTimeout(() => resolve(
-                [
-                    {id:0, title:'Lubricante', description: 'detalle de un lubricante', price: 200, pictureUrl: '../img/lubricante.jpg'},
-                    {id:1, title:'Vibrador', description: 'detalle de un vibrador', price: 1800, pictureUrl: '../img/vibrador.jpg'},
-                    {id:2, title:'Esposas', description: 'detalle de esposas', price: 700, pictureUrl: '../img/esposas.jpg'},
-                    {id:3, title:'Estimulador', description: 'detalle de un estimulador', price: 10000, pictureUrl: '../img/estimulador.jpg'},
-                    {id:4, title:'Plug', description: 'detalle del plug', price: 12000, pictureUrl: '../img/plug.jpg'}
-                ]
-            ), 2000);
-        });
-
-        getItems.then((res) => {
-            setItem(res.find(it => (it.title === title)));
-        //.catch(res => {alert('Error al tratar de renderizar los productos')})
-        });
+        const getItems = collection(db, 'items');
+        
+        getDocs(getItems).then((res) => {
+            const result = res.docs.map( doc => {
+                return {...doc.data(), id: doc.id};
+                
+            });
+            setItem(result.find(res => res.title  === title))
+        })
     }, [title]);
 
     return(
-        <ItemDetail {...item} />
-    )
+        <>
+            <ItemDetail key={item.id} id={item.id} pictureUrl={item.pictureUrl} title={item.title} description={item.description} price={item.price} item={item} stock={item.stock}/>        </>
+    );
 }
 
 export default ItemDetailContainer;

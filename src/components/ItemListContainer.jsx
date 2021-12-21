@@ -1,29 +1,41 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
+import { Container } from 'react-bootstrap';
 import ItemList from './ItemList';
+import db from '../firebase/firebase';
+import { collection, getDocs } from '@firebase/firestore';
 
 const ItemListContainer = () => {
-    const [items, setItems] = useState([]);
 
-    const getItems = () => new Promise (resolve => {
-            setTimeout(() => resolve(
-                [
-                    {id:0, title:'Lubricante', description: 'detalle de un lubricante', price: 200, pictureUrl: 'img/lubricante.jpg'},
-                    {id:1, title:'Vibrador', description: 'detalle de un vibrador', price: 1800, pictureUrl: 'img/vibrador.jpg'},
-                    {id:2, title:'Esposas', description: 'detalle de esposas', price: 700, pictureUrl: 'img/esposas.jpg'},
-                    {id:3, title:'Estimulador', description: 'detalle de un estimulador', price: 10000, pictureUrl: 'img/estimulador.jpg'},
-                    {id:4, title:'Plug', description: 'detalle del plug', price: 12000, pictureUrl: 'img/plug.jpg'}
-                ]
-            ), 2000);
-        });
-        
-    useEffect(() => {
-        getItems().then(res => setItems(res))
-        .catch(res => {alert('Error al tratar de renderizar los productos')})
-    }, []);
+    const [productos, setProductos] = useState([])
+    const [cat, setCat] = useState('todos')
 
+    const filtering = (props) => {
+        setCat(props.target.value)
+    }
+
+   useEffect(() => {
+       const getItems = collection(db, 'items');
+
+       getDocs(getItems).then((res) =>{
+           const results = res.docs.map( doc => {
+               return {...doc.data(), id: doc.id};
+           });
+           cat === 'todos' ? 
+           setProductos(results) : setProductos(results.filter(res => res.category === cat))
+       })
+   }, [cat])
+   
     return (
         <>
-            <ItemList items={items}/>
+            <Container fluid>
+                <h2 style={{margin:'2rem'}} className="text-center">Productos</h2>
+                <select defaultValue={'todos'} name="catFilter" id="catFilter" onChange={filtering}>
+                    <option value="todos" selected>Todos</option>
+                    <option value="juguetes">Juguetes</option>
+                    <option value="accesorios">Accesorios</option>
+                </select>
+                <ItemList productos={productos}/>
+            </Container>
         </>
     );
 }

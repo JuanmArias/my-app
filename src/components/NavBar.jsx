@@ -25,6 +25,7 @@ const NavBar = () => {
                     <Nav className="justify-content-start flex-grow-1 pe-3">
                       <Nav.Link as={Link} to={"/"}>Inicio</Nav.Link>
                       <Nav.Link as={Link} to={"/productos"}>Productos</Nav.Link>
+                      <Nav.Link as={Link} to={"/cart"}>Cart</Nav.Link>
                     </Nav>
                   </OffcanvasBody>
                 </Navbar.Offcanvas>
