@@ -1,13 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import { useParams } from 'react-router';
 import ItemDetail from './ItemDetail';
-import { Container } from 'react-bootstrap';
 import db from '../firebase/firebase';
 import { collection, getDocs } from '@firebase/firestore';
 
 const ItemDetailContainer = () => {
     
-    const [item, setItem] = useState({})
+    const [item, setItem] = useState({});
     const {title} = useParams();
 
     useEffect(() => {
@@ -15,7 +14,7 @@ const ItemDetailContainer = () => {
         
         getDocs(getItems).then((res) => {
             const result = res.docs.map( doc => {
-                return {id: doc.id, ...doc.data()};
+                return {...doc.data(), id: doc.id};
                 
             });
             setItem(result.find(res => res.title  === title))
