@@ -31,3 +31,26 @@ hr {
 
     
 }
+
+  .buying-form {
+    text-align: center;
+  }
+  
+  .buying-form .form-group {
+    width: 100% !important;
+    margin-top: 2rem;
+  }
+  
+  .buying-form form {
+    display: inline-block !important;
+  }
+  
+  .buying-form h2 {
+    margin-bottom: 2rem;
+  }
+  
+  .final-message {
+    margin-top: 2rem;
+    font-size: 30px;
+    font-weight: 600;
+  }

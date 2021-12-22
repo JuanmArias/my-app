@@ -6,6 +6,7 @@ import CarouselNav from './components/Carousel';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import Cart from './components/Cart';
 import { CartFuncion } from './context/CartContext';
+import BuyingForm from './components/BuyingForm';
 import './App.css';
 
 
@@ -24,6 +25,8 @@ function App() {
         <Route path="/itemDetail/:title" component={ItemDetailContainer}/>
         
         <Route path="/cart" component={Cart}/>
+
+        <Route path="/buying" component={BuyingForm}/>
       </Switch>
     </CartFuncion>
   </BrowserRouter>
